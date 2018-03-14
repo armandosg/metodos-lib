@@ -1,5 +1,7 @@
 package chaimando.metodos;
 
+import java.util.ArrayList;
+
 public class Util {
   public static double factorial (double num) {
     double factorial = 1;
@@ -17,15 +19,15 @@ public class Util {
     return factoriales;
   }
 
-  public static double horner (double polinomio[], double x, double c) {
-    int grado = polinomio.length - 1;
-    double suma = polinomio[grado];
+  public static double horner (ArrayList<Double> polinomio, double x, double c) {
+    int grado = polinomio.size() - 1;
+    double suma = polinomio.get(grado);
     for (int i = grado - 1; i >= 0; i--)
-      suma = ((x - c) * suma) + polinomio[i];
+      suma = ((x - c) * suma) + polinomio.get(i);
     return suma;
   }
 
-  public static double falsaPosicion (double polinomio[], double c, double tolerancia) {
+  public static double falsaPosicion (ArrayList<Double> polinomio, double c, double tolerancia) {
     double f0, ff, fr, error;
     double x0 = 3, xf = 3.5, xr = 0, xra;
     do {

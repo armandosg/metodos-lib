@@ -1,5 +1,8 @@
 package chaimando.metodos;
+
 import java.util.ArrayList;
+
+import static java.lang.Math.*;
 
 public class Complex {
 
@@ -7,16 +10,16 @@ public class Complex {
 
   public double cplx_mod(NumComplex z){
     double modulo = 0;
-    modulo = Math.sqrt(Math.pow(z.a, 2) + Math.pow(z.b, 2));
+    modulo = sqrt(pow(z.a, 2) + pow(z.b, 2));
     return modulo;
   }
 
   public double cplx_fase(NumComplex z){
     if(z.a == 0){
-      return (z.b > 0 ? (Math.PI/2) : (-Math.PI/2));
+      return (z.b > 0 ? (PI/2) : (-PI/2));
     }
     else
-      return Math.atan(z.b / z.a);
+      return atan(z.b / z.a);
   }
 
   public NumComplex cplx_conj(NumComplex z){
@@ -55,8 +58,8 @@ public class Complex {
 
     // z1/z2=(z1*z2')/|z2|
     z = cplx_prod(z1,zconj);
-    z.a = z.a/Math.pow(cplx_mod(z2),2);
-    z.b = z.b/Math.pow(cplx_mod(z2),2);
+    z.a = z.a/pow(cplx_mod(z2),2);
+    z.b = z.b/pow(cplx_mod(z2),2);
     return z;
   }
 
@@ -64,15 +67,15 @@ public class Complex {
   //cplx_pow calcua la n-ésima potencia entera del número z1
   NumComplex cplx_pow(NumComplex z1, int n){
     NumComplex z = new NumComplex();
-    z.a=Math.pow(cplx_mod(z1),n)*Math.cos(n*cplx_fase(z1));
-    z.b=Math.pow(cplx_mod(z1),n)*Math.sin(n*cplx_fase(z1));
+    z.a=pow(cplx_mod(z1),n)*cos(n*cplx_fase(z1));
+    z.b=pow(cplx_mod(z1),n)*sin(n*cplx_fase(z1));
     return z;
   }
   //cplx_raiz calcua la n-ésima potencia fraccionaria del número z1. Devuelve UNA raíz
   NumComplex cplx_raiz(NumComplex z1, double n){
     NumComplex z = new NumComplex();
-      z.a=Math.pow(cplx_mod(z1),n)*Math.cos(n*cplx_fase(z1));
-      z.b=Math.pow(cplx_mod(z1),n)*Math.sin(n*cplx_fase(z1));
+      z.a=pow(cplx_mod(z1),n)*cos(n*cplx_fase(z1));
+      z.b=pow(cplx_mod(z1),n)*sin(n*cplx_fase(z1));
 
     return z;
   }
@@ -81,39 +84,39 @@ public class Complex {
 
   //algoritmo usual
 
-  NumComplex cplx_ev_poli(int grado, double coeficientes[], NumComplex z){
+  NumComplex cplx_ev_poli(int grado, ArrayList<Double> coeficientes, NumComplex z){
     ///EVALUAR POLINOMIOS EN NÚMEROS COMPLEJOS
 
     int k=0;
     NumComplex polinomio = new NumComplex();
     for(k = 0; k <= grado; k++){
-      polinomio.a+=cplx_pow(z,k).a*coeficientes[k];
-      polinomio.b+=cplx_pow(z,k).b*coeficientes[k];
+      polinomio.a+=cplx_pow(z,k).a*coeficientes.get(k);
+      polinomio.b+=cplx_pow(z,k).b*coeficientes.get(k);
     }
     return polinomio;
   }
   //algoritmo de Horner
-  NumComplex cplx_horner(int grado, double coeficientes[], NumComplex z){
+  NumComplex cplx_horner(int grado, ArrayList<Double> coeficientes, NumComplex z){
     NumComplex polinomio = new NumComplex();
     NumComplex coef_complejo = new NumComplex();
 
-    polinomio.a = coeficientes[grado];
+    polinomio.a = coeficientes.get(grado);
     polinomio.b = 0;
 
     for(k=grado-1; k >= 0; k--){
-      coef_complejo.a = coeficientes[k];
+      coef_complejo.a = coeficientes.get(k);
       coef_complejo.b=0;
       polinomio=cplx_sum(coef_complejo,cplx_prod(z,polinomio));
     }
     return polinomio;
   }
   //Las n potencias n-ésimas del número z. Devuelve un arreglo de tipo NumComplex
-  NumComplex[]  raices_nesimas(NumComplex z1, int n){
-    NumComplex[] arreglo = new NumComplex[100];
+  ArrayList<NumComplex>  raices_nesimas(NumComplex z1, int n){
+    ArrayList<NumComplex> arreglo = new ArrayList<NumComplex>();
     int k=0;
     for(k = 0; k < n; k++){
-      arreglo[k].a=Math.pow(cplx_mod(z1),1/(double)n)*Math.cos((cplx_fase(z1)+2*k*Math.PI)/n);
-      arreglo[k].b=Math.pow(cplx_mod(z1),1/(double)n)*Math.sin((cplx_fase(z1)+2*k*Math.PI)/n);
+      arreglo.get(k).a=pow(cplx_mod(z1),1/(double)n)*cos((cplx_fase(z1)+2*k*PI)/n);
+      arreglo.get(k).b=pow(cplx_mod(z1),1/(double)n)*sin((cplx_fase(z1)+2*k*PI)/n);
     }
     return arreglo;
   }
@@ -122,19 +125,19 @@ public class Complex {
   NumComplex cplx_sen(NumComplex z, double tolerancia){
     //implementa la serie de Taylor con siete cifras por default
 
-    double[] coeficientes = new double[21];
+    ArrayList<Double> coeficientes = new ArrayList<Double>();
     double c = 0;
 
     for(k=0; k<=20; k++){
       //La derivada es cíclica:
       if(k%4==0)
-        coeficientes[k]=Math.sin(c)/Util.factorial(k);
+        coeficientes.add(sin(c)/Util.factorial(k));
       if(k%4==1)
-        coeficientes[k]=Math.cos(c)/Util.factorial(k);
+        coeficientes.add(cos(c)/Util.factorial(k));
       if(k%4==2)
-        coeficientes[k]=-Math.sin(c)/Util.factorial(k);
+        coeficientes.add(-sin(c)/Util.factorial(k));
       if(k%4==3)
-        coeficientes[k]=-Math.cos(c)/Util.factorial(k);
+        coeficientes.add(-cos(c)/Util.factorial(k));
       }
 
     return cplx_horner(20,coeficientes,z);
@@ -142,30 +145,30 @@ public class Complex {
   }
   NumComplex cplx_cos(NumComplex z, double tolerancia){
     //implementa la serie de Taylor con siete cifras por default
-    double[] coeficientes = new double[21];
+    ArrayList<Double> coeficientes = new ArrayList<Double>();
     double c = 0;
 
     for(k=0; k<=20; k++){
       //La derivada es cíclica:
       if(k%4==0)
-      coeficientes[k]=Math.cos(c)/Util.factorial(k);
+      coeficientes.add(cos(c)/Util.factorial(k));
       if(k%4==1)
-      coeficientes[k]=-Math.sin(c)/Util.factorial(k);
+      coeficientes.add(-sin(c)/Util.factorial(k));
       if(k%4==2)
-      coeficientes[k]=-Math.cos(c)/Util.factorial(k);
+      coeficientes.add(-cos(c)/Util.factorial(k));
       if(k%4==3)
-      coeficientes[k]=Math.sin(c)/Util.factorial(k);
+      coeficientes.add(sin(c)/Util.factorial(k));
     }
 
     return cplx_horner(20,coeficientes,z);
   }
   NumComplex cplx_exp(NumComplex z, double tolerancia){
-    double[] coeficientes = new double[21];
+    ArrayList<Double> coeficientes = new ArrayList<Double>();
     double c = 0;
 
     for(k=0; k<=20; k++)
       //La derivada es siempre la misma:
-      coeficientes[k]=Math.exp(c)/Util.factorial(k);
+      coeficientes.add(exp(c)/Util.factorial(k));
 
     return cplx_horner(20,coeficientes,z);
   }
