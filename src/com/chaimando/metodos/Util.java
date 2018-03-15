@@ -1,4 +1,4 @@
-package chaimando.metodos;
+package com.chaimando.metodos;
 
 import java.util.ArrayList;
 
