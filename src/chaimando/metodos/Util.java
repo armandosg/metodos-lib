@@ -47,6 +47,47 @@ public class Util {
     return xr;
   }
 
+  //algoritmo de newton-rapson para aproximar
+  //una raíz de un polinomio por rectas por rectas tangentes
+  /*
+  double newtonRapson(int x0, ArrayList<Double> coeficientes, tolerancia){
+    hacer esto:
+
+      derivada de polinomio y guardar coeficientes en otra lista
+      evaluar polinomio en x0 usando Horner = f
+      evaluar derivada en x0 usdando Horner = df
+      calcular x1 = x0 - (f/df)
+      error = getError(x1,x0) *usar el error relativo
+      x0 = x1
+      volver a hacer el paso uno con el nuevo valor de x0
+
+    mientras error >= tolerancia
+
+    devolver x0
+  }
+  */
+
+  //división sintética
+  /*
+  int divSintetica(int x, ArrayList<Double> coeficientes) {
+    asignar último elemento de coeficientes a variable 'residuo'
+    mientras i >= 0
+      hacer 'residuo' por x, mas coeficientes en i-1
+      asignar el resultado de lo anterior a 'residuo'
+      i--
+    devolver 'residuo'
+  }
+  */
+
+  //derivada de una función polinomial de grado n
+  public static ArrayList<Double> derivaPolinomio(ArrayList<Double> coeficientes) {
+    for(int i = 1; i < coeficientes.size(); i ++) {
+      coeficientes.set(i, coeficientes.get(i) * i);
+    }
+    coeficientes.remove(0);
+    return coeficientes;
+  }
+
   // Método para Calcular por Sumas infinitas
   public static double euler (long n) {
     double pi = 0;                          // Almacena el valor calculado de cada iteración
