@@ -47,25 +47,19 @@ public class Util {
     return xr;
   }
 
-  //algoritmo de newton-rapson para aproximar
-  //una raíz de un polinomio por rectas por rectas tangentes
-  /*
-  double newtonRapson(int x0, ArrayList<Double> coeficientes, tolerancia){
-    hacer esto:
-
-      derivada de polinomio y guardar coeficientes en otra lista
-      evaluar polinomio en x0 usando Horner = f
-      evaluar derivada en x0 usdando Horner = df
-      calcular x1 = x0 - (f/df)
-      error = getError(x1,x0) *usar el error relativo
-      x0 = x1
-      volver a hacer el paso uno con el nuevo valor de x0
-
-    mientras error >= tolerancia
-
-    devolver x0
+  public static double newtonRapson(double x0, ArrayList<Double> coeficientes, double tolerancia) {
+    ArrayList<Double> coefDerivada;
+    double f, df, x1 = 0, error;
+    coefDerivada = derivaPolinomio(coeficientes);
+    do {
+      x0 = x1;
+      f = horner(coeficientes, x0, 0);
+      df = horner(coefDerivada, x0, 0);
+      x1 = x0 - (f/df);
+      error = getError(x1,x0);
+    } while (error >= tolerancia);
+    return x1;
   }
-  */
 
   //división sintética
   /*
@@ -81,11 +75,11 @@ public class Util {
 
   //derivada de una función polinomial de grado n
   public static ArrayList<Double> derivaPolinomio(ArrayList<Double> coeficientes) {
+    ArrayList<Double> coefDerivada = new ArrayList<Double>();
     for(int i = 1; i < coeficientes.size(); i ++) {
-      coeficientes.set(i, coeficientes.get(i) * i);
+      coefDerivada.add(i - 1, coeficientes.get(i) * i);
     }
-    coeficientes.remove(0);
-    return coeficientes;
+    return coefDerivada;
   }
 
   // Método para Calcular por Sumas infinitas
