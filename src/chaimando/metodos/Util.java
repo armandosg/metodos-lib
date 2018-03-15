@@ -2,6 +2,8 @@ package chaimando.metodos;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.*;
+
 public class Util {
   public static double factorial (double num) {
     double factorial = 1;
@@ -36,7 +38,7 @@ public class Util {
       ff = horner(polinomio, xf, c);
       xr = xf - ((ff * (x0 - xf)) / (f0 - ff));
       fr = horner(polinomio, xr, c);
-      error = Math.abs( ( (xr - xra) / xr ) * 100 );
+      error = abs( ( (xr - xra) / xr ) * 100 );
       if (fr * f0 < 0)
         xf = xr;
       else if (fr * f0 > 0)
@@ -49,16 +51,16 @@ public class Util {
   public static double euler (long n) {
     double pi = 0;                          // Almacena el valor calculado de cada iteración
     for (long i = 1; i <= n ; i ++) {       // Serie que va desde i=1 hasta n
-      pi += ( 6.0 / ( Math.pow(i, 2) ) );
+      pi += ( 6.0 / ( pow(i, 2) ) );
     }
-    return Math.sqrt(pi);                   // Devuelve la raiz del resultado de la serie
+    return sqrt(pi);                   // Devuelve la raiz del resultado de la serie
   }
 
   public static double getError (double real, double calculado) {
-    return Math.abs( (real - calculado) / real ) * 100;
+    return abs( (real - calculado) / real ) * 100;
   }
 
   public static double getTolerancia (int cifras) {
-    return 0.5 * Math.pow(10, (2-cifras));
+    return 0.5 * pow(10, (2-cifras));
   }
 }

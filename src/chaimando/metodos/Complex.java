@@ -2,6 +2,7 @@ package chaimando.metodos;
 
 import java.util.ArrayList;
 
+import static chaimando.metodos.Util.*;
 import static java.lang.Math.*;
 
 public class Complex {
@@ -131,13 +132,13 @@ public class Complex {
     for(k=0; k<=20; k++){
       //La derivada es cíclica:
       if(k%4==0)
-        coeficientes.add(sin(c)/Util.factorial(k));
+        coeficientes.add(sin(c)/factorial(k));
       if(k%4==1)
-        coeficientes.add(cos(c)/Util.factorial(k));
+        coeficientes.add(cos(c)/factorial(k));
       if(k%4==2)
-        coeficientes.add(-sin(c)/Util.factorial(k));
+        coeficientes.add(-sin(c)/factorial(k));
       if(k%4==3)
-        coeficientes.add(-cos(c)/Util.factorial(k));
+        coeficientes.add(-cos(c)/factorial(k));
       }
 
     return cplx_horner(20,coeficientes,z);
@@ -151,13 +152,13 @@ public class Complex {
     for(k=0; k<=20; k++){
       //La derivada es cíclica:
       if(k%4==0)
-      coeficientes.add(cos(c)/Util.factorial(k));
+      coeficientes.add(cos(c)/factorial(k));
       if(k%4==1)
-      coeficientes.add(-sin(c)/Util.factorial(k));
+      coeficientes.add(-sin(c)/factorial(k));
       if(k%4==2)
-      coeficientes.add(-cos(c)/Util.factorial(k));
+      coeficientes.add(-cos(c)/factorial(k));
       if(k%4==3)
-      coeficientes.add(sin(c)/Util.factorial(k));
+      coeficientes.add(sin(c)/factorial(k));
     }
 
     return cplx_horner(20,coeficientes,z);
@@ -168,7 +169,7 @@ public class Complex {
 
     for(k=0; k<=20; k++)
       //La derivada es siempre la misma:
-      coeficientes.add(exp(c)/Util.factorial(k));
+      coeficientes.add(exp(c)/factorial(k));
 
     return cplx_horner(20,coeficientes,z);
   }
