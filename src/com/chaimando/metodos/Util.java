@@ -98,4 +98,13 @@ public class Util {
   public static double getTolerancia (int cifras) {
     return 0.5 * pow(10, (2-cifras));
   }
+  
+   public static double divisionSintetica (ArrayList<Double> polinomio, double x) {
+    int grado = polinomio.size(), i;
+    double[] a =  null;
+    a[grado] = polinomio.get(grado);
+    for (i = grado - 1; i >= 0; i--)
+      a[i] = polinomio.get(i) + a[i+1]*x;
+    return a[i];
+    }
 }
