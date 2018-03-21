@@ -1,8 +1,9 @@
-package com.chaimando.metodos;
+package com.chaimando.lib;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import static com.chaimando.metodos.Util.*;
+import static com.chaimando.lib.Util.*;
 import static java.lang.Math.*;
 
 public class Complex {

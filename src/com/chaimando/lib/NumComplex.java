@@ -1,4 +1,4 @@
-package com.chaimando.metodos;
+package com.chaimando.lib;
 
 public class NumComplex {
   public double a;
