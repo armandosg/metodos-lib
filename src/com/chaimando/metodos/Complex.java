@@ -30,7 +30,7 @@ public class Complex {
     return zconj;
   }
 
-  public NumComplex cplx_sum(NumComplex z1, NumComplex z2){
+  public static NumComplex cplx_sum(NumComplex z1, NumComplex z2){
     NumComplex z = new NumComplex();
     z.a = z1.a+z2.a;
     z.b = z1.b+z2.b;
@@ -44,7 +44,7 @@ public class Complex {
     return z;
   }
 
-  NumComplex cplx_prod(NumComplex z1, NumComplex z2){
+  public static NumComplex cplx_prod(NumComplex z1, NumComplex z2){
     NumComplex z = new NumComplex();
     //(a,b)(c,d)=(ac-bd,ad+bc)
     z.a = z1.a*z2.a - z1.b*z2.b;
@@ -172,5 +172,29 @@ public class Complex {
       coeficientes.add(exp(c)/factorial(k));
 
     return cplx_horner(20,coeficientes,z);
+  }
+
+  public static ArrayList<Double> toDouble (ArrayList<NumComplex> lista) {
+    ArrayList<Double> real = new ArrayList<Double>();
+    for (NumComplex complex : lista) {
+      real.add(complex.a);
+    }
+    return real;
+  }
+
+  public static ArrayList<NumComplex> divisionComplex (ArrayList<NumComplex> polinomio, NumComplex x) {
+    ArrayList<NumComplex> factorizado =  new ArrayList<NumComplex>();
+    int grado = polinomio.size() - 1;
+
+    factorizado.add(polinomio.get(grado));
+    NumComplex coeficiente, suma;
+    for (int i = 1; i <= grado; i ++) {
+      coeficiente = polinomio.get(grado - i);
+      suma = factorizado.get(i - 1);
+      factorizado.add(Complex.cplx_sum(Complex.cplx_prod(suma, x), coeficiente));
+    }
+
+    Collections.reverse(factorizado);
+    return factorizado;
   }
 }

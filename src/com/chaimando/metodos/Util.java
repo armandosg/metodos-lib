@@ -33,6 +33,9 @@ public class Util {
   }
 
   public static double horner (ArrayList<Double> polinomio, double x, double c) {
+    if (polinomio.size() == 0) {
+      return 0;
+    }
     int grado = polinomio.size() - 1;
     double suma = polinomio.get(grado);
     for (int i = grado - 1; i >= 0; i--)
@@ -63,7 +66,6 @@ public class Util {
     double f, df, x1 = 0, error;
     coefDerivada = derivaPolinomio(coeficientes);
     do {
-      System.out.println(x1);
       f = horner(coeficientes, x0, 0);
       df = horner(coefDerivada, x0, 0);
       x1 = x0 - (f/df);
@@ -133,25 +135,5 @@ public class Util {
     Collections.sort(factores);
     return factores;
   }
-
-  public static ArrayList<Double> raicesEnteras (ArrayList<Double> polinomio) {
-    ArrayList<Integer> factoresAn = factores((int)polinomio.get(polinomio.size() - 1));
-    ArrayList<Integer> factoresA0 = factores((int)polinomio.get(0));
-
-    ArrayList<Double> residuo = new ArrayList<Double>();
-    ArrayList<Double> raices = new ArrayList<Double>();
-
-    double probRaiz;
-    for (int i = 0; i < factoresAn.size(); i ++) {
-      for (int j = 0; j < factoresA0.size(); j ++) {
-        probRaiz = (double) factoresAn.get(i) / factoresA0.get(j);
-        residuo = divisionSintetica(polinomio, probRaiz);
-        if (residuo.get(0) == 0) {
-          raices.add(probRaiz);
-        }
-      }
-    }
-
-    return raices;
-  }
+  
 }
