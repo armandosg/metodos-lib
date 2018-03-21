@@ -102,4 +102,56 @@ public class Util {
     return factorizado;
   }
 
+  public static ArrayList<Integer> factores (int num) {
+    ArrayList<Integer> factores = new ArrayList<Integer>();
+    if (num < 0)
+      num = abs(num);
+    factores.add(num);
+    factores.add(-num);
+    if (num == 0 || num == 1) {
+      return factores;
+    }
+    factores.add(1);
+    factores.add(-1);
+    int i = 1;
+    int factor = num, factorAnterior = num;
+    do {
+      i ++;
+      if (num % i == 0) {
+        factorAnterior = factor;
+        if (i == factorAnterior)
+          break;
+        factor = num / i;
+        factores.add(i);
+        factores.add(-i);
+        if(i != factor) {
+          factores.add(factor);
+          factores.add(-factor);
+        }
+      }
+    } while (i < (num / 2));
+    Collections.sort(factores);
+    return factores;
+  }
+
+  public static ArrayList<Double> raicesEnteras (ArrayList<Double> polinomio) {
+    ArrayList<Integer> factoresAn = factores((int)polinomio.get(polinomio.size() - 1));
+    ArrayList<Integer> factoresA0 = factores((int)polinomio.get(0));
+
+    ArrayList<Double> residuo = new ArrayList<Double>();
+    ArrayList<Double> raices = new ArrayList<Double>();
+
+    double probRaiz;
+    for (int i = 0; i < factoresAn.size(); i ++) {
+      for (int j = 0; j < factoresA0.size(); j ++) {
+        probRaiz = (double) factoresAn.get(i) / factoresA0.get(j);
+        residuo = divisionSintetica(polinomio, probRaiz);
+        if (residuo.get(0) == 0) {
+          raices.add(probRaiz);
+        }
+      }
+    }
+
+    return raices;
+  }
 }
