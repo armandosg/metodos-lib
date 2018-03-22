@@ -180,10 +180,15 @@ public class Util {
         probRaices.add( -probRaiz );
       }
     }
-    Set<Double> hs = new LinkedHashSet<Double>(probRaices);
-    probRaices.clear();
-    probRaices.addAll(hs);
+    probRaices = removeDuplicates(probRaices);
     return probRaices;
+  }
+
+  public static ArrayList<Double> removeDuplicates(ArrayList<Double> lista) {
+    Set<Double> hs = new LinkedHashSet<Double>(lista);
+    lista.clear();
+    lista.addAll(hs);
+    return lista;
   }
 
 }
