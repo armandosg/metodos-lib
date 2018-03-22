@@ -25,51 +25,54 @@ class Roots {
     }
 
     ArrayList<Double> polinomio = coeficientes;
-    ArrayList<Double> residuo = new ArrayList<Double>();
     ArrayList<Double> raices = new ArrayList<Double>();
     ArrayList<Double> probIrracionales = new ArrayList<Double>();
-    ArrayList<Integer> factoresAn;
-    ArrayList<Integer> factoresA0;
+
+
+    ArrayList<Double> residuo = new ArrayList<Double>();
+    ArrayList<Double> probRaices = new ArrayList<Double>();
     double an, a0;
-    for (int k = 0; k < coeficientes.size() - 1; k ++) {
+    for (int k = 0; k < coeficientes.size() - 2; k ++) {
       an = polinomio.get(polinomio.size() - 1);
       a0 = polinomio.get(0);
-      factoresAn = Util.factores((int)an);
-      factoresA0 = Util.factores((int)a0);
-
-      double probRaiz, x;
-      test:
-        for (int i = 0; i < factoresA0.size(); i ++) {
-          for (int j = 0; j < factoresAn.size(); j ++) {
-            probRaiz = (double) factoresA0.get(i) / factoresAn.get(j);
-            residuo = Util.divisionSintetica(polinomio, probRaiz);
-            if (residuo.get(0) == 0) {
-              raices.add(probRaiz);
-              residuo.remove(0);
-              break test;
-            } else {
-              probIrracionales.add(probRaiz);
-            }
-          }
+      probRaices = Util.getProbRaices((int)an, (int)a0);
+      System.out.println(polinomio);
+      System.out.println(probRaices);
+      for (int i = 0; i < probRaices.size() && probIrracionales.size() < grado; i++) {
+        residuo = Util.divisionSintetica(polinomio, probRaices.get(i));
+        if (residuo.get(0) == 0) {
+          System.out.println("entra");
+          System.out.println(probRaices.get(i));
+          raices.add(probRaices.get(i));
+          probRaices.remove(i);
+          residuo.remove(0);
+          polinomio = residuo;
+          break;
+        } else {
+          probIrracionales.add(probRaices.get(i));
         }
-      polinomio = residuo;
+      }
     }
 
-    Set<Double> hs = new LinkedHashSet<Double>(probIrracionales);
-    probIrracionales.clear();
-    probIrracionales.addAll(hs);
 
-    double tolerancia = Util.getTolerancia(15);
+    System.out.println(probIrracionales);
+
+    double tolerancia = Util.getTolerancia(7);
     polinomio = coeficientes;
     double x;
-    for (double complex : probIrracionales) {
-      x = Util.newtonRapson(complex, polinomio, tolerancia);
+    for (double prueba : probIrracionales) {
+      x = Util.newtonRapson(prueba, polinomio, tolerancia);
       if(Util.horner(polinomio, x, 0) <= tolerancia) {
         raices.add(x);
         polinomio = Util.divisionSintetica(polinomio, x);
         polinomio.remove(0);
+        System.out.println(polinomio);
       }
     }
+
+    Set<Double> hs = new LinkedHashSet<Double>(raices);
+    raices.clear();
+    raices.addAll(hs);
 
     System.out.println("Raíces: ");
     for (double e : raices) {
