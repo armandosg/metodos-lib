@@ -2,6 +2,8 @@ package com.chaimando.lib;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 import static java.lang.Math.*;
 
@@ -65,13 +67,15 @@ public class Util {
     ArrayList<Double> coefDerivada;
     double f, df, x1 = 0, error;
     coefDerivada = derivaPolinomio(coeficientes);
+    int i = 0;
     do {
       f = horner(coeficientes, x0, 0);
       df = horner(coefDerivada, x0, 0);
       x1 = x0 - (f/df);
       error = getError(x1,x0);
       x0 = x1;
-    } while (error >= tolerancia);
+      i ++;
+    } while (error >= tolerancia && i < Math.pow(tolerancia, -1));
     return x1;
   }
 
@@ -135,5 +139,51 @@ public class Util {
     Collections.sort(factores);
     return factores;
   }
-  
+
+  public static ArrayList<Integer> positivos (int num) {
+    ArrayList<Integer> factores = new ArrayList<Integer>();
+    if (num < 0)
+      num = abs(num);
+    factores.add(num);
+    if (num == 0 || num == 1) {
+      return factores;
+    }
+    factores.add(1);
+    int i = 1;
+    int factor = num, factorAnterior = num;
+    do {
+      i ++;
+      if (num % i == 0) {
+        factorAnterior = factor;
+        if (i == factorAnterior)
+          break;
+        factor = num / i;
+        factores.add(i);
+        if(i != factor) {
+          factores.add(factor);
+        }
+      }
+    } while (i < (num / 2));
+    Collections.sort(factores);
+    return factores;
+  }
+
+  public static ArrayList<Double> getProbRaices (int an, int a0) {
+    ArrayList<Integer> factoresAn = Util.positivos((int)an);
+    ArrayList<Integer> factoresA0 = Util.positivos((int)a0);
+    ArrayList<Double> probRaices = new ArrayList<Double>();
+    double probRaiz;
+    for (int i = 0; i < factoresA0.size(); i ++) {
+      for (int j = 0; j < factoresAn.size(); j ++) {
+        probRaiz = (double) factoresA0.get(i) / factoresAn.get(j);
+        probRaices.add( probRaiz );
+        probRaices.add( -probRaiz );
+      }
+    }
+    Set<Double> hs = new LinkedHashSet<Double>(probRaices);
+    probRaices.clear();
+    probRaices.addAll(hs);
+    return probRaices;
+  }
+
 }
