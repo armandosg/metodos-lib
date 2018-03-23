@@ -110,44 +110,9 @@ public class Util {
 
   public static ArrayList<Integer> factores (int num) {
     ArrayList<Integer> factores = new ArrayList<Integer>();
-    if (num < 0)
-      num = abs(num);
+    if (num < 0) num = abs(num);
     factores.add(num);
-    factores.add(-num);
-    if (num == 0 || num == 1) {
-      return factores;
-    }
-    factores.add(1);
-    factores.add(-1);
-    int i = 1;
-    int factor = num, factorAnterior = num;
-    do {
-      i ++;
-      if (num % i == 0) {
-        factorAnterior = factor;
-        if (i == factorAnterior)
-          break;
-        factor = num / i;
-        factores.add(i);
-        factores.add(-i);
-        if(i != factor) {
-          factores.add(factor);
-          factores.add(-factor);
-        }
-      }
-    } while (i < (num / 2));
-    Collections.sort(factores);
-    return factores;
-  }
-
-  public static ArrayList<Integer> positivos (int num) {
-    ArrayList<Integer> factores = new ArrayList<Integer>();
-    if (num < 0)
-      num = abs(num);
-    factores.add(num);
-    if (num == 0 || num == 1) {
-      return factores;
-    }
+    if (num == 0 || num == 1) return factores;
     factores.add(1);
     int i = 1;
     int factor = num, factorAnterior = num;
@@ -155,32 +120,29 @@ public class Util {
       i ++;
       if (num % i == 0) {
         factorAnterior = factor;
-        if (i == factorAnterior)
-          break;
+        if (i == factorAnterior) break;
         factor = num / i;
         factores.add(i);
-        if(i != factor) {
-          factores.add(factor);
-        }
+        if(i != factor) factores.add(factor);
       }
     } while (i < (num / 2));
-    Collections.sort(factores);
     return factores;
   }
 
   public static ArrayList<Double> getProbRaices (int an, int a0) {
-    ArrayList<Integer> factoresAn = Util.positivos((int)an);
-    ArrayList<Integer> factoresA0 = Util.positivos((int)a0);
+    ArrayList<Integer> factoresAn = Util.factores((int)an);
+    ArrayList<Integer> factoresA0 = Util.factores((int)a0);
     ArrayList<Double> probRaices = new ArrayList<Double>();
     double probRaiz;
     for (int i = 0; i < factoresA0.size(); i ++) {
       for (int j = 0; j < factoresAn.size(); j ++) {
         probRaiz = (double) factoresA0.get(i) / factoresAn.get(j);
         probRaices.add( probRaiz );
-        probRaices.add( -probRaiz );
+        probRaices.add( -1*probRaiz );
       }
     }
     probRaices = removeDuplicates(probRaices);
+    Collections.sort(probRaices);
     return probRaices;
   }
 

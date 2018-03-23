@@ -17,4 +17,8 @@ public class NumComplex {
     return "(" + a + ", " + b + ")";
   }
 
+  public String toStringConj() {
+    return "(" + a + ", +-" + Math.abs(b) + ")";
+  }
+
 }
