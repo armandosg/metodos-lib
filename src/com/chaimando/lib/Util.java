@@ -35,13 +35,17 @@ public class Util {
   }
 
   public static double horner (ArrayList<Double> polinomio, double x, double c) {
+    return horner(polinomio, x - c);
+  }
+
+  public static double horner (ArrayList<Double> polinomio, double x) {
     if (polinomio.size() == 0) {
       return 0;
     }
     int grado = polinomio.size() - 1;
     double suma = polinomio.get(grado);
     for (int i = grado - 1; i >= 0; i--)
-      suma = ((x - c) * suma) + polinomio.get(i);
+      suma = (x * suma) + polinomio.get(i);
     return suma;
   }
 

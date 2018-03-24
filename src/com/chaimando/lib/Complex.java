@@ -132,7 +132,7 @@ public class Complex {
       error = cplx_error(x1,x0);
       x0 = x1;
       i ++;
-    } while (cplx_mod(error) >= tolerancia && i < Math.pow(tolerancia, -1));
+    } while (cplx_mod(error) >= tolerancia && i < 100000);
     return x1;
   }
 

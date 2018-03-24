@@ -91,10 +91,11 @@ public class Taylor {
         System.out.println("\t" + polinomio.get(i) + "\tx^" + i);
       piaprox = falsaPosicion(polinomio, c, tolerancia);
       error = Math.abs(((Math.PI - piaprox) / Math.PI) * 100);
+      System.out.println("Pi aproximado para " + polinomio.size() + " sumandos: " + piaprox);
       System.out.println("Error para " + polinomio.size() + " sumandos: " + error + "\n");
       polinomio.add(coefSenN(sumandos ++, c));
     } while (error >= tolerancia);
-    
+
     System.out.print("\t\t\t1 ");
     for (int i = 2; i <= 9; i ++) System.out.print(i);
     for (int i = 0; i <= 8; i ++) System.out.print(i);

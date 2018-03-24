@@ -2,6 +2,7 @@ import com.chaimando.lib.Util;
 import com.chaimando.lib.NumComplex;
 import com.chaimando.lib.Complex;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.File;
@@ -66,7 +67,7 @@ public class Roots {
     residuo = polinomio;
     for (int i = 0; raices.size() < grado && i < probRaices.size(); i ++) {
       probRaiz = Util.newtonRapson(probRaices.get(i), residuo, tolerancia);
-      if(Util.horner(residuo, probRaiz, 0) <= tolerancia) { // Si al evaluar te da cercano a cero
+      if(Util.horner(residuo, probRaiz) <= tolerancia) { // Si al evaluar te da cercano a cero
         raices.add(probRaiz);
         residuo = Util.divisionSintetica(residuo, probRaiz);
         residuo.remove(0); // Quitar el elemento que quedo cero
